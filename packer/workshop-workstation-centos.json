@@ -8,13 +8,13 @@
     "instance_type": "m3.medium",
     "source_ami": "ami-d2c924b2",
     "ssh_username": "centos",
-    "ami_name": "Compliance - CentOS 7 - v1.7 - Leff"
+    "ami_name": "Workshop Workstation - CentOS 7 - v0.1"
   }],
 
   "provisioners": [{
     "type": "chef-solo",
     "install_command": "curl -L https://www.chef.io/chef/install.sh | sudo bash -s -- -c stable -v 12.21.3",
-    "cookbook_paths": ["cookbooks"],
-    "run_list": ["workstations::compliance"]
+    "cookbook_paths": ["vendored_cookbooks"],
+    "run_list": ["workstations::centos"]
   }]
 }
