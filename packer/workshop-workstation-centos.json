@@ -1,0 +1,20 @@
+{
+  "builders": [{
+    "type": "amazon-ebs",
+    "ssh_pty": true,
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "us-west-2",
+    "instance_type": "m3.medium",
+    "source_ami": "ami-d2c924b2",
+    "ssh_username": "centos",
+    "ami_name": "Compliance - CentOS 7 - v1.7 - Leff"
+  }],
+
+  "provisioners": [{
+    "type": "chef-solo",
+    "install_command": "curl -L https://www.chef.io/chef/install.sh | sudo bash -s -- -c stable -v 12.21.3",
+    "cookbook_paths": ["cookbooks"],
+    "run_list": ["workstations::compliance"]
+  }]
+}

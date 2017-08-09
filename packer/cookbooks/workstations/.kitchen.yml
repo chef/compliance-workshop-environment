@@ -1,0 +1,21 @@
+---
+driver:
+  name: ec2
+
+provisioner:
+   name: chef_solo
+
+verifier:
+  name: inspec
+
+transport:
+  username: centos
+
+platforms:
+  - name: centos-7
+
+suites:
+  - name: centos
+    run_list:
+      - "recipe[workstations::centos]"
+    attributes:

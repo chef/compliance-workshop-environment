@@ -1,0 +1,13 @@
+DEPENDENCIES
+  workstations
+    path: .
+    metadata: true
+
+GRAPH
+  chef-ingredient (2.1.5)
+  selinux (2.0.3)
+  sudo (3.5.3)
+  workstations (0.1.0)
+    chef-ingredient (>= 0.0.0)
+    selinux (>= 0.0.0)
+    sudo (>= 0.0.0)
