@@ -4,7 +4,8 @@ This repo contains the bits necessary for a successful Chef Essentials + InSpec 
 
 ## Environment Setup
 
-TBD
+1. If your AWS key is different than your default key (`~/.ssh/id_rsa`, for example), add it to your ssh-agent (`ssh-add ~/.ssh/my-aws-key`).
+1. TBD
 
 ## Building a Workstation Image
 
