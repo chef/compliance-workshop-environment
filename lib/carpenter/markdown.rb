@@ -49,8 +49,6 @@ module Carpenter
     def self.all_workstations(tfstate)
       return @workstations unless @workstations.nil?
 
-      puts "***** PARSING WORKSTATIONS *****"
-
       @workstations = {}
 
       tfstate['modules'].each do |mod|
