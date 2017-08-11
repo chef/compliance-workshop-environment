@@ -23,8 +23,8 @@ module Carpenter
       end
 
       workstation_password = cli.ask('Login password for workstations: ') do |q|
-        q.validate = /\A\S+\Z/
-        q.responses[:not_valid] = "Workstation login password cannot be empty"
+        q.validate = lambda { |p| !p.empty? && p != 'chef'}
+        q.responses[:not_valid] = "Workstation login password cannot be empty or be 'chef'"
       end
 
       workstation_count = cli.ask('Number of workstations: ') do |q|
