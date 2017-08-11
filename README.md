@@ -8,6 +8,7 @@ This repo contains the bits necessary for a successful Chef Essentials + InSpec 
 
 1. If your AWS key is different than your default key (`~/.ssh/id_rsa`, for example), add it to your ssh-agent (`ssh-add ~/.ssh/my-aws-key`).
    * SSH agent is the preferred auth method in order to accommodate password-protected SSH keys which are not supported by Terraform.
+1. Put a valid `delivery.license` file in the `terraform` directory in this repository.
 1. Run: `bundle install`
 1. Run: `bundle exec carpenter build NAME`
    * The `NAME` will be used in the FQDN of the Automate Hostname, and it also provides the ability to run multiple workshop environments simultaneously.

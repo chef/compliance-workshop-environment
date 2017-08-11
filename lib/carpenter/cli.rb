@@ -10,6 +10,7 @@ module Carpenter
       cli = HighLine.new
 
       validate_terraform_install!(cli)
+      validate_delivery_license!(cli)
 
       unless Carpenter::State.load(env_name).empty?
         say_error(cli, "environment #{env_name} already exists.")
@@ -198,6 +199,14 @@ module Carpenter
     rescue Errno::ENOENT
       say_error(cli, "Terraform not installed - please visit terraform.io first!")
       exit 1
+    end
+
+    def validate_delivery_license!(cli)
+      unless Carpenter::Terraform.has_license?
+        say_error(cli, "No delivery license file found. " \
+          "Please copy a valid delivery.license to the terraform/ directory.") unless Carpenter::Terraform.has_license?
+        exit 1
+      end
     end
   end
 end

@@ -39,6 +39,10 @@ module Carpenter
       Hashie::Mash.new(JSON.load(File.read(state_file(env_name))))
     end
 
+    def self.has_license?
+      File.exist?(File.join(terraform_dir, 'delivery.license'))
+    end
+
     private
 
     def self.state_dir
