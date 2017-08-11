@@ -1,4 +1,5 @@
 require 'carpenter/cli'
 require 'carpenter/log'
+require 'carpenter/markdown'
 require 'carpenter/state'
 require 'carpenter/terraform'

@@ -127,10 +127,40 @@ module Carpenter
 
     desc 'markdown ENV_NAME', 'display the workstations for environment ENV_NAME in markdown format, useful for creating a gist'
     def markdown(env_name)
+      state = Carpenter::State.load(env_name)
+      if state.empty?
+        say_error(cli, "No state found for an environment named #{env_name}")
+        exit 1
+      end
+
+      tfstate = Carpenter::Terraform.load_state(env_name)
+      if tfstate.empty?
+        say_error(cli, "No Terraform state found for an environment named #{env_name}")
+        exit 1
+      end
+
+      Carpenter::Markdown.print(tfstate)
     end
 
     desc 'automate_ip ENV_NAME', 'display the IP address of the Automate server for environment ENV_NAME'
     def automate_ip(env_name)
+      state = Carpenter::State.load(env_name)
+      if state.empty?
+        say_error(cli, "No state found for an environment named #{env_name}")
+        exit 1
+      end
+
+      tfstate = Carpenter::Terraform.load_state(env_name)
+      if tfstate.empty?
+        say_error(cli, "No Terraform state found for an environment named #{env_name}")
+        exit 1
+      end
+
+      tfstate['modules'].each do |mod|
+        next unless mod['resources'].key?('aws_instance.automate')
+        puts mod['resources']['aws_instance.automate']['primary']['attributes']['public_ip']
+        exit 0
+      end
     end
 
     private

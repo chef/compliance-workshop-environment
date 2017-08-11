@@ -1,17 +1,23 @@
+require 'hashie/mash'
+
 module Carpenter
   module Terraform
     def self.apply(config)
       env_name = config[:env_name]
 
-      cmd = Mixlib::ShellOut.new(
+      get_cmd = Mixlib::ShellOut.new('terraform get -update=true', cwd: terraform_dir)
+      get_cmd.run_command
+      get_cmd.error!
+
+      apply_cmd = Mixlib::ShellOut.new(
         "terraform apply -state=#{state_file(env_name)}",
         cwd: terraform_dir,
         env: env_from_config(config),
         timeout: 1800,
       )
-      cmd.live_stream = STDOUT
-      cmd.run_command
-      cmd.error!
+      apply_cmd.live_stream = STDOUT
+      apply_cmd.run_command
+      apply_cmd.error!
     end
 
     def self.destroy(config)
@@ -26,6 +32,11 @@ module Carpenter
       cmd.live_stream = STDOUT
       cmd.run_command
       cmd.error!
+    end
+
+    def self.load_state(env_name)
+      return unless File.exist?(state_file(env_name))
+      Hashie::Mash.new(JSON.load(File.read(state_file(env_name))))
     end
 
     private
