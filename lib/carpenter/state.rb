@@ -1,10 +1,11 @@
+require 'hashie/mash'
 require 'json'
 
 module Carpenter
   module State
     def self.load(env_name)
       return {} unless File.exist?(state_file(env_name))
-      JSON.parse(File.read(state_file(env_name)))
+      Hashie::Mash.new(JSON.parse(File.read(state_file(env_name))))
     end
 
     def self.save(env_name, config)

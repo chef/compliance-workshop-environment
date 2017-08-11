@@ -9,8 +9,10 @@ module Carpenter
     def build(env_name)
       cli = HighLine.new
 
+      validate_terraform_install!(cli)
+
       unless Carpenter::State.load(env_name).empty?
-        cli.say("#{cli.color('ERROR:', :red)} environment #{env_name} already exists.")
+        say_error(cli, "environment #{env_name} already exists.")
         exit 1
       end
 
@@ -44,7 +46,8 @@ module Carpenter
         end
       end
 
-      contact_tag = cli.ask('Email, without the chef.io (i.e. adamleff)') do |q|
+      contact_tag = cli.ask('Email, without the chef.io (i.e. adamleff): ') do |q|
+        q.default = ENV['USER']
         q.validate = /\A\S+\Z/
         q.responses[:not_valid] = "Email address (without domain) is required for the AWS Contact Tag"
       end
@@ -71,7 +74,7 @@ module Carpenter
       cli.say("Let's do this!")
       Carpenter::State.save(env_name, config)
       Carpenter::Terraform.apply(config)
-      cli.say(cli.color('Voila!', :green))
+      say_success(cli, 'Environment created!')
     rescue Interrupt, EOFError
       cli.say("\nSee ya!")
     end
@@ -80,9 +83,11 @@ module Carpenter
     def rerun(env_name)
       cli = HighLine.new
 
+      validate_terraform_install!(cli)
+
       config = Carpenter::State.load(env_name)
       if config.empty?
-        cli.say("#{cli.color('ERROR:', :red)} No state found for an environment named #{env_name}")
+        say_error(cli, "No state found for an environment named #{env_name}")
         exit 1
       end
 
@@ -90,7 +95,7 @@ module Carpenter
       exit unless cli.agree("Are you sure you want to re-run this environment? (yes/no): ")
 
       Carpenter::Terraform.apply(config)
-      cli.say(cli.color('Voila!', :green))
+      say_success(cli, 'Re-run complete!')
     rescue Interrupt, EOFError
       cli.say("\nSee ya!")
     end
@@ -99,9 +104,11 @@ module Carpenter
     def destroy(env_name)
       cli = HighLine.new
 
+      validate_terraform_install!(cli)
+
       config = Carpenter::State.load(env_name)
       if config.empty?
-        cli.say("#{cli.color('ERROR:', :red)} No state found for an environment named #{env_name}")
+        say_error(cli, "No state found for an environment named #{env_name}")
         exit 1
       end
 
@@ -113,7 +120,7 @@ module Carpenter
 
       Carpenter::Terraform.destroy(config)
       Carpenter::State.delete(env_name)
-      cli.say(cli.color("All gone!", :green))
+      say_success(cli, 'All gone!')
     rescue Interrupt, EOFError
       cli.say("\nSee ya!")
     end
@@ -141,6 +148,26 @@ module Carpenter
         cli.say("#{cli.color("#{k}:", :bold)} #{v}")
       end
       cli.say("\n")
+    end
+
+    def say_error(cli, message)
+      cli.say("#{cli.color('ERROR:', :red)} #{message}")
+    end
+
+    def say_success(cli, message)
+      cli.say("#{cli.color('SUCCESS:', :green)} #{message}")
+    end
+
+    def validate_terraform_install!(cli)
+      cmd = Mixlib::ShellOut.new("terraform version")
+      cmd.run_command
+      if cmd.error?
+        say_error(cli, "Terraform not installed - please visit terraform.io first!")
+        exit 1
+      end
+    rescue Errno::ENOENT
+      say_error(cli, "Terraform not installed - please visit terraform.io first!")
+      exit 1
     end
   end
 end

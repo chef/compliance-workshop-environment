@@ -1,9 +1,57 @@
 module Carpenter
   module Terraform
     def self.apply(config)
+      env_name = config[:env_name]
+
+      cmd = Mixlib::ShellOut.new(
+        "terraform apply -state=#{state_file(env_name)}",
+        cwd: terraform_dir,
+        env: env_from_config(config),
+        timeout: 1800,
+      )
+      cmd.live_stream = STDOUT
+      cmd.run_command
+      cmd.error!
     end
 
     def self.destroy(config)
+      env_name = config[:env_name]
+
+      cmd = Mixlib::ShellOut.new(
+        "terraform destroy -state=#{state_file(env_name)} -force",
+        cwd: terraform_dir,
+        env: env_from_config(config),
+        timeout: 1800,
+      )
+      cmd.live_stream = STDOUT
+      cmd.run_command
+      cmd.error!
+    end
+
+    private
+
+    def self.state_dir
+      File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'state'))
+    end
+
+    def self.state_file(env_name)
+      File.join(state_dir, "#{env_name}.tfstate")
+    end
+
+    def self.terraform_dir
+      File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'terraform'))
+    end
+
+    def self.env_from_config(config)
+      {
+        "TF_VAR_total_workstations"         => config[:workstation_count].to_s,
+        "TF_VAR_workstation_login_password" => config[:encrypted_workstation_password],
+        "TF_VAR_aws_sshkey"                 => config[:aws_key_name],
+        "TF_VAR_workshop_prefix"            => config[:env_name],
+        "TF_VAR_contact_tag"                => config[:contact_tag],
+        "TF_VAR_deck_color_1"               => config[:deck_color_1],
+        "TF_VAR_deck_color_2"               => config[:deck_color_2],
+      }
     end
   end
 end

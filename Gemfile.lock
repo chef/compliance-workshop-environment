@@ -1,7 +1,18 @@
+PATH
+  remote: .
+  specs:
+    carpenter (0.1.0)
+      hashie
+      highline
+      mixlib-log
+      mixlib-shellout
+      thor
+
 GEM
   remote: https://rubygems.org/
   specs:
     coderay (1.1.1)
+    hashie (3.5.6)
     highline (1.7.8)
     method_source (0.8.2)
     mixlib-log (1.7.1)
@@ -17,11 +28,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  highline
-  mixlib-log
-  mixlib-shellout
+  carpenter!
   pry
-  thor
 
 BUNDLED WITH
    1.15.3

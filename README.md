@@ -4,8 +4,28 @@ This repo contains the bits necessary for a successful Chef Essentials + InSpec 
 
 ## Environment Setup
 
+### Creating the Environment
+
 1. If your AWS key is different than your default key (`~/.ssh/id_rsa`, for example), add it to your ssh-agent (`ssh-add ~/.ssh/my-aws-key`).
-1. TBD
+   * SSH agent is the preferred auth method in order to accommodate password-protected SSH keys which are not supported by Terraform.
+1. Run: `bundle install`
+1. Run: `bundle exec carpenter build NAME`
+   * The `NAME` will be used in the FQDN of the Automate Hostname, and it also provides the ability to run multiple workshop environments simultaneously.
+1. Answer carpenter's questions, say `yes`, and then Terraform will do its thing!
+
+For Markdown output of all the workstation IP addresses, run: `bundle exec carpenter markdown NAME`
+
+For the IP address of the Automate server, run: `bundle exec carpenter automate_ip NAME`
+
+### Re-Running Terraform
+
+Should there be a problem during the Terraform run, a re-run will usually fix the infrastructure that didn't get set up properly.
+
+To re-run Terraform, run: `bundle exec carpenter rerun NAME`
+
+### Destroying
+
+When the environment is no longer necessary, run: `bundle exec carpenter destroy NAME`
 
 ## Building a Workstation Image
 
