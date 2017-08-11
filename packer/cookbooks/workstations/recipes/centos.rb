@@ -241,3 +241,34 @@ template "/usr/bin/run_chef" do
   mode "0777"
   action :create
 end
+
+#
+# Write out some workshop solutions in a "hidden" directory in case
+# some participants have trouble typing out the recipe/template/kitchen
+# files correctly, or if you're simply running behind on time.
+#
+directory "/home/chef/.solutions" do
+  owner "chef"
+  action :create
+end
+
+template "/home/chef/.solutions/ssh.rb" do
+  source "ssh.rb.erb"
+  owner "chef"
+  mode "0644"
+  action :create
+end
+
+template "/home/chef/.solutions/.kitchen.yml" do
+  source "kitchen-yml.erb"
+  owner "chef"
+  mode "0644"
+  action :create
+end
+
+template "/home/chef/.solutions/sshd_config.erb" do
+  source "sshd_config_fixed.erb"
+  owner "chef"
+  mode "0644"
+  action :create
+end
