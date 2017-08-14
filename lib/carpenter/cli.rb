@@ -17,7 +17,7 @@ module Carpenter
         exit 1
       end
 
-      aws_key_name = cli.ask('AWS Key Name: ') do |q|
+      aws_key_name = cli.ask('AWS Key Name (in us-west-2): ') do |q|
         q.default = ENV['USER']
         q.validate = /\A\S+\Z/
         q.responses[:not_valid] = "AWS Key Name cannot be empty"
