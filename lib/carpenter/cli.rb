@@ -74,7 +74,16 @@ module Carpenter
 
       cli.say("Let's do this!")
       Carpenter::State.save(env_name, config)
-      Carpenter::Terraform.apply(config)
+
+      begin
+        Carpenter::Terraform.apply(config)
+      rescue
+        say_error(cli, "Terraform apply failed. Fix any issues detailed above and run `carpenter rerun #{env_name}`. " \
+          "If you need to change any environment settings, first run `carpenter destroy #{env_name}` and then " \
+          "run `carpenter build #{env_name}` again.")
+        exit 1
+      end
+
       say_success(cli, 'Environment created!')
     rescue Interrupt, EOFError
       cli.say("\nSee ya!")
