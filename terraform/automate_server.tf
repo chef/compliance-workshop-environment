@@ -44,6 +44,7 @@ resource "aws_instance" "automate" {
     inline = [
       "curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P automate",
       "sudo automate-ctl setup --license /tmp/delivery.license --fqdn ${var.workshop_prefix}-workshop.${data.aws_route53_zone.chefdemo.name} --key /tmp/delivery.pem --server-url https://fake-chef-server.chefdemo.net/organizations/chef --enterprise chef --no-build-node --configure",
+      "sudo automate-ctl telemetry disable",
       "sudo automate-ctl create-user chef chef --password chef --roles admin",
     ]
   }
