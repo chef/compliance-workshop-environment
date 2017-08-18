@@ -1,0 +1,17 @@
+# .bash_profile
+#
+# This file was created by Packer/Chef from github.com/chef/compliance-workshop-environment
+#
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/.local/bin:$HOME/bin
+
+export PATH
+
+eval "$(chef shell-init bash)"

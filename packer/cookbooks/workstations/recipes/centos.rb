@@ -92,6 +92,17 @@ group "dockerroot" do
 end
 
 #
+# Replace chef's .bash_profile with one that contains the ChefDK
+# shell-init goodness.
+#
+template "/home/chef/.bash_profile" do
+  source "chef-bash-profile.erb"
+  owner "chef"
+  mode "0644"
+  action :create
+end
+
+#
 # Replace the SSHD config with our own, which includes enabling
 # PasswordAuthentication which AWS defaults to disabled.
 #
