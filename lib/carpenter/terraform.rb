@@ -5,7 +5,7 @@ module Carpenter
     def self.apply(config)
       env_name = config[:env_name]
 
-      get_cmd = Mixlib::ShellOut.new('terraform get -update=true', cwd: terraform_dir)
+      get_cmd = Mixlib::ShellOut.new('terraform init -upgrade=true', cwd: terraform_dir)
       get_cmd.run_command
       get_cmd.error!
 

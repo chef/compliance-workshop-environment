@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'highline'
   spec.add_dependency 'mixlib-log'
   spec.add_dependency 'mixlib-shellout'
+  spec.add_dependency 'mixlib-versioning'
   spec.add_dependency 'thor'
 
   spec.add_development_dependency 'pry'

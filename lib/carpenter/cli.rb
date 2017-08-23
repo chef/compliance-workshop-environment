@@ -1,6 +1,7 @@
 require 'digest/sha2'
 require 'highline'
 require 'mixlib/shellout'
+require 'mixlib/versioning'
 require 'thor'
 
 module Carpenter
@@ -203,6 +204,22 @@ module Carpenter
       cmd.run_command
       if cmd.error?
         say_error(cli, "Terraform not installed - please visit terraform.io first!")
+        exit 1
+      end
+
+      version_line = cmd.stdout.lines.first.strip
+      version_str = version_line.match(/Terraform v(\d+\.\d+\.\d+)/)[1]
+      if version_str.nil?
+        say_error(cli, "Unable to determine Terraform version - please install Terraform 0.10 or later")
+        exit 1
+      end
+
+      installed_version = Mixlib::Versioning.parse(version_str)
+      required_version = Mixlib::Versioning.parse("0.10.0")
+
+      if installed_version < required_version
+        say_error(cli, "Installed Terraform version #{installed_version.to_s} older than " \
+          "required version #{required_version.to_s}. Visit terraform.io to download a newer version.")
         exit 1
       end
     rescue Errno::ENOENT
