@@ -6,6 +6,7 @@ This repo contains the bits necessary for a successful Chef Essentials + InSpec 
 
 ### Creating the Environment
 
+1. Ensure Terraform 0.10 or later is installed. Run `terraform version` to validate.
 1. If your AWS key is different than your default key (`~/.ssh/id_rsa`, for example), add it to your ssh-agent (`ssh-add ~/.ssh/my-aws-key`).
    * SSH agent is the preferred auth method in order to accommodate password-protected SSH keys which are not supported by Terraform.
 1. Put a valid `delivery.license` file in the `terraform` directory in this repository.
