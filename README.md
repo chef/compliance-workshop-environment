@@ -4,12 +4,16 @@ This repo contains the bits necessary for a successful Chef Essentials + InSpec 
 
 ## Environment Setup
 
+**NOTE:** Carpenter is currently designed for use only in the `chef-aws` account, and the Terraform configs make certain assumptions based on that account (AMI IDs, Route53 domain names, etc.). This will not work in the SA AWS account, for example.
+
 ### Creating the Environment
 
 1. Ensure Terraform 0.10 or later is installed. Run `terraform version` to validate.
 1. If your AWS key is different than your default key (`~/.ssh/id_rsa`, for example), add it to your ssh-agent (`ssh-add ~/.ssh/my-aws-key`).
    * SSH agent is the preferred auth method in order to accommodate password-protected SSH keys which are not supported by Terraform.
 1. Put a valid `delivery.license` file in the `terraform` directory in this repository.
+1. If your `chef-aws` AWS credentials are not your default AWS credentials, export the `AWS_PROFILE` enviornment variable with the name of your credentials profile containing your `chef-aws` credentials.
+   * Example: `export AWS_PROFILE=chef_aws`
 1. Run: `bundle install`
 1. Run: `bundle exec carpenter build NAME`
    * The `NAME` will be used in the FQDN of the Automate Hostname, and it also provides the ability to run multiple workshop environments simultaneously.
