@@ -30,7 +30,7 @@ module Carpenter
       end
 
       workstation_count = cli.ask('Number of workstations: ') do |q|
-        q.validate = lambda { |p| p.to_i > 0 && p.to_i < 104 }
+        q.validate = lambda { |p| p.to_i > 0 && p.to_i <= 104 }
         q.responses[:not_valid] = "Workstation count must be between 1-104"
       end.to_i
 
