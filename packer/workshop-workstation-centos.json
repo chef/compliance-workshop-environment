@@ -8,7 +8,7 @@
     "instance_type": "m3.medium",
     "source_ami": "ami-d2c924b2",
     "ssh_username": "centos",
-    "ami_name": "Workshop Workstation - CentOS 7 - v0.3"
+    "ami_name": "Workshop Workstation - CentOS 7 - v0.4"
   }],
 
   "provisioners": [{
