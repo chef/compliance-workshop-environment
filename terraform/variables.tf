@@ -7,7 +7,7 @@ variable "total_workstations" {
 
 variable "workstation_ami" {
   description = "AWS AMI to be used for the student workstation"
-  default     = "ami-a12bc7d9"
+  default     = "ami-b17384c9"
 }
 
 variable "workstation_login_password" {
