@@ -215,7 +215,7 @@ module Carpenter
       end
 
       installed_version = Mixlib::Versioning.parse(version_str)
-      required_version = Mixlib::Versioning.parse("0.10.0")
+      required_version = Mixlib::Versioning.parse("0.11.0")
 
       if installed_version < required_version
         say_error(cli, "Installed Terraform version #{installed_version.to_s} older than " \

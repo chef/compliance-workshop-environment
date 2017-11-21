@@ -10,7 +10,7 @@ module Carpenter
       get_cmd.error!
 
       apply_cmd = Mixlib::ShellOut.new(
-        "terraform apply -state=#{state_file(env_name)}",
+        "terraform apply -state=#{state_file(env_name)} -auto-approve",
         cwd: terraform_dir,
         env: env_from_config(config),
         timeout: 1800,
