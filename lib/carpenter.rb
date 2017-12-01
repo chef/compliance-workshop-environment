@@ -1,4 +1,6 @@
+require 'carpenter/aws'
 require 'carpenter/cli'
+require 'carpenter/config'
 require 'carpenter/log'
 require 'carpenter/markdown'
 require 'carpenter/state'

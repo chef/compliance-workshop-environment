@@ -20,11 +20,14 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.1'
 
+  spec.add_dependency 'aws-sdk-ec2', '~> 1'
+  spec.add_dependency 'aws-sdk-route53', '~> 1'
   spec.add_dependency 'hashie'
   spec.add_dependency 'highline'
   spec.add_dependency 'mixlib-log'
   spec.add_dependency 'mixlib-shellout'
   spec.add_dependency 'mixlib-versioning'
+  spec.add_dependency 'tomlrb'
   spec.add_dependency 'thor'
 
   spec.add_development_dependency 'pry'

@@ -1,0 +1,20 @@
+[[aws_accounts]]
+name = "chef-aws"
+workstation_ami_id = "ami-b17384c9"
+automate_ami_id = "ami-d2c924b2"
+security_group_id = "sg-1507736f"
+dns_zone = "chefdemo.net."
+
+[[aws_accounts]]
+name = "chef-engineering"
+workstation_ami_id = "ami-b17384c9"
+automate_ami_id = "ami-d2c924b2"
+security_group_id = "sg-768b5f0a"
+dns_zone = "eng.chefdemo.net."
+
+[[aws_accounts]]
+name = "chef-sa-group"
+workstation_ami_id = "ami-b17384c9"
+automate_ami_id = "ami-d2c924b2"
+security_group_id = "sg-9ea276e2"
+dns_zone = "sa.chefdemo.net."

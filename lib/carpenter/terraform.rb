@@ -59,6 +59,7 @@ module Carpenter
 
     def self.env_from_config(config)
       {
+        "AWS_PROFILE"                       => config[:aws_profile],
         "TF_VAR_total_workstations"         => config[:workstation_count].to_s,
         "TF_VAR_workstation_login_password" => config[:encrypted_workstation_password],
         "TF_VAR_aws_sshkey"                 => config[:aws_key_name],
@@ -66,6 +67,10 @@ module Carpenter
         "TF_VAR_contact_tag"                => config[:contact_tag],
         "TF_VAR_deck_color_1"               => config[:deck_color_1],
         "TF_VAR_deck_color_2"               => config[:deck_color_2],
+        "TF_VAR_workstation_ami"            => config[:workstation_ami_id],
+        "TF_VAR_automate_ami"               => config[:automate_ami_id],
+        "TF_VAR_security_group"             => config[:security_group_id],
+        "TF_VAR_dns_zone"                   => config[:dns_zone],
       }
     end
   end

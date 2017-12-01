@@ -18,10 +18,27 @@ module Carpenter
         exit 1
       end
 
-      aws_key_name = cli.ask('AWS Key Name (in us-west-2): ') do |q|
+      config = Carpenter::Config.new
+
+      account_config = nil
+      cli.choose do |menu|
+        menu.prompt = 'Select an AWS account: '
+        config.aws_account_names.each do |account_name|
+          menu.choice(account_name) { account_config = config.aws_account(account_name) }
+        end
+      end
+
+      aws_key_name = cli.ask("AWS Key Name (in us-west-2 on account #{account_config[:name]}): ") do |q|
         q.default = ENV['USER']
         q.validate = /\A\S+\Z/
         q.responses[:not_valid] = "AWS Key Name cannot be empty"
+      end
+
+      begin
+        Carpenter::AWS.new(account_config, aws_key_name).validate!
+      rescue => e
+        say_error(cli, "Unable to validate AWS configuration: #{e.message}")
+        exit 1
       end
 
       workstation_password = cli.ask('Login password for workstations: ') do |q|
@@ -56,10 +73,15 @@ module Carpenter
 
       config = {
         env_name: env_name,
+        aws_profile: account_config[:name],
         aws_key_name: aws_key_name,
+        workstation_ami_id: account_config[:workstation_ami_id],
         workstation_password: workstation_password,
         encrypted_workstation_password: encrypt_password(workstation_password),
         workstation_count: workstation_count,
+        automate_ami_id: account_config[:automate_ami_id],
+        dns_zone: account_config[:dns_zone],
+        security_group_id: account_config[:security_group_id],
         deck_color_1: deck_color_1,
         deck_color_2: deck_color_2,
         contact_tag: contact_tag,
@@ -172,6 +194,21 @@ module Carpenter
         puts mod['resources']['aws_instance.automate']['primary']['attributes']['public_ip']
         exit 0
       end
+    end
+
+    desc 'automate_url ENV_NAME', 'display the URL for the Chef Automate service for environment name ENV_NAME'
+    def automate_url(env_name)
+      cli = HighLine.new
+
+      state = Carpenter::State.load(env_name)
+      if state.empty?
+        say_error(cli, "No state found for an environment named #{env_name}")
+        exit 1
+      end
+
+      cli.say "\n"
+      cli.say "https://#{env_name}-workshop.#{state[:dns_zone]}"
+      cli.say "\n"
     end
 
     private

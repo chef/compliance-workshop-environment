@@ -7,7 +7,6 @@ variable "total_workstations" {
 
 variable "workstation_ami" {
   description = "AWS AMI to be used for the student workstation"
-  default     = "ami-b17384c9"
 }
 
 variable "workstation_login_password" {
@@ -20,12 +19,6 @@ variable "workstation_login_password" {
 
 variable "automate_ami" {
   description = "AWS AMI to be used for the automate server"
-  default     = "ami-d2c924b2"
-}
-
-variable "automate_security_group" {
-  description = "AWS Security Group ID to be used for the Automate Server"
-  default     = "sg-1507736f"
 }
 
 ###############################################################################
@@ -33,7 +26,6 @@ variable "automate_security_group" {
 
 variable "security_group" {
   description = "AWS Security Group ID to be used for student workstation and automate"
-  default     = "sg-1507736f"
 }
 
 provider "aws" {
@@ -58,5 +50,9 @@ variable "deck_color_1" {
 }
 
 variable "deck_color_2" {
+  type = "string"
+}
+
+variable "dns_zone" {
   type = "string"
 }

@@ -1,5 +1,5 @@
 data "aws_route53_zone" "chefdemo" {
-  name = "chefdemo.net."
+  name = "${var.dns_zone}"
 }
 
 resource "aws_route53_record" "automate" {
