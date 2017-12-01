@@ -12,8 +12,8 @@ This repo contains the bits necessary for a successful Chef Essentials + InSpec 
 1. If your AWS key is different than your default key (`~/.ssh/id_rsa`, for example), add it to your ssh-agent (`ssh-add ~/.ssh/my-aws-key`).
    * SSH agent is the preferred auth method in order to accommodate password-protected SSH keys which are not supported by Terraform.
 1. Put a valid `delivery.license` file in the `terraform` directory in this repository.
-1. If your `chef-aws` AWS credentials are not your default AWS credentials, export the `AWS_PROFILE` environment variable with the name of your credentials profile containing your `chef-aws` credentials.
-   * Example: `export AWS_PROFILE=chef_aws`
+1. Ensure your `~/.aws/credentials` file has a section for the account you choose when you run `carpenter build` below. The account names must match.
+   * If you are using an account tied to Okta, such as `chef-engineering`, ensure that the `okta_aws` tool is running so your `credentials` file has a fresh set of keys.
 1. Run: `bundle install`
 1. Run: `bundle exec carpenter build NAME`
    * The `NAME` will be used in the FQDN of the Automate Hostname, and it also provides the ability to run multiple workshop environments simultaneously.
