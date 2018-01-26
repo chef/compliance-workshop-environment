@@ -79,3 +79,44 @@ Create a new section in the `carpenter.toml` file at the root of this repository
 ### Publish your changes!
 
 Don't forget to open a PR back to this repo that contains all your awesome changes to support a new AWS account!
+
+
+### Azure directions
+
+Follow the steps below to set up a Chef BJC demo environment on Microsoft Azure.
+
+1. Get yourself access to the Chef Solutions Architecture account on Azure.  The friendly folks at Chef helpdesk can assist with this part.
+
+2. Visit https://portal.azure.com and verify that your login credentials work.
+
+
+
+3. Once you’re logged in click on the little gear icon in the upper right corner:
+
+
+4. In another browser tab open up the BJC artifact repo and download the version you want to run. Make sure you grab the *Azure* version and not the AWS version of the demo.
+
+https://s3.console.aws.amazon.com/s3/buckets/bjcpublic/cloudformation/?region=us-west-2&tab=overview
+
+5.  Once you’ve downloaded the JSON onto your laptop go back into the Azure portal and click on “Resource Groups” on the left side menu.  Click on the +Add button at the top of the page.  
+
+6.  You’ll have the option to pin your resource group into a widget on your Azure portal.  
+
+7.  BJC demo is launched using a “Template Deployment”. Click New (Left side on the page), and search for Template Deployment until you can select it from the options.
+
+Select Create.
+
+8.  Click on “Build your own template in the editor”
+9.  Click on “Load file” at the top.
+10.  Browse to your bjc-demo-azure-x.x.x.json file and select it.
+11.  Click ‘save’.  Under resource group select the resource group you created earlier.  You can optionally create a new user group here as well.
+12.  All the other fields are optional.  The TTL field does not yet do anything on Azure, because there is no reaper in Azure (yet).  You’ll need to manually clean up your demo when you’re done.
+13.  Agree to the terms and hit the “Purchase” button at the bottom.
+14.  Wait around ten minutes for your demo to become available.  You can monitor the progress if you wish by clicking on the little bell alert icon at the top of the Azure portal controls.
+15.  Once your demo is up and running connect via RDP as usual.  The IP address can be found by browsing into your Resource Group and then selecting the Output called Workstation-1-PublicIPAddres
+
+OPTIONAL:
+If you’re doing a custom demo or want to use the BJC environment for playing around with Test Kitchen, you can follow these steps to configure command line tools on the workstation.  These instructions will get you a working ‘kitchen create’ command as well as ‘knife azurerm’ commands:
+https://chefio.slack.com/files/U07K7QLQ7/F6VHFC79N/create_azure_rm_service_principal.md
+16.  When your demo is done, simply go back into the Azure portal and delete your resource group.  Azure will ask you to confirm before you wipe the demo.
+
