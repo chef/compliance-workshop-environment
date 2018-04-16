@@ -1,9 +1,9 @@
 [[aws_accounts]]
-name = "chef-aws"
-workstation_ami_id = "ami-b17384c9"
-automate_ami_id = "ami-d2c924b2"
-security_group_id = "sg-1507736f"
-dns_zone = "chefdemo.net."
+name = "chef-community"
+workstation_ami_id = "ami-0b1dd6cb093166004"
+automate_ami_id = "ami-0ebdd976"
+security_group_id = "sg-0ceb0741aec969b9a"
+dns_zone = "community.chefdemo.net."
 
 [[aws_accounts]]
 name = "chef-engineering"

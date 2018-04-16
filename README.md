@@ -4,7 +4,7 @@ This repo contains the bits necessary for a successful Chef Essentials + InSpec 
 
 ## Environment Setup
 
-**NOTE:** Carpenter currently supports the `chef-aws`, `chef-engineering`, and `chef-sa-group` accounts. If you would like Carpenter to support additional AWS accounts, see the "Adding Additional Account Support" section below.
+**NOTE:** Carpenter currently supports the, `chef-community`, `chef-engineering`, and `chef-sa-group` accounts. If you would like Carpenter to support additional AWS accounts, see the "Adding Additional Account Support" section below.
 
 ### Creating the Environment
 
@@ -12,8 +12,8 @@ This repo contains the bits necessary for a successful Chef Essentials + InSpec 
 1. If your AWS key is different than your default key (`~/.ssh/id_rsa`, for example), add it to your ssh-agent (`ssh-add ~/.ssh/my-aws-key`).
    * SSH agent is the preferred auth method in order to accommodate password-protected SSH keys which are not supported by Terraform.
 1. Put a valid `delivery.license` file in the `terraform` directory in this repository.
-1. Ensure your `~/.aws/credentials` file has a section for the account you choose when you run `carpenter build` below. The account names must match. The current version uses account names: chef-aws, chef-engineering, chef-sa-group, thus ensure your `.aws/credentials` file contains section headings named to match (eg. `[chef-aws]` and/or `[chef-engineering]` and/or `[chef-sa-group]`.
-   * If you are using an account tied to Okta, such as `chef-engineering`, ensure that the `okta_aws` tool is running so your `credentials` file has a fresh set of keys.
+1. Ensure your `~/.aws/credentials` file has a section for the account you choose when you run `carpenter build` below. The account names must match. The current version uses account names: chef-community, chef-engineering, chef-sa-group, thus ensure your `.aws/credentials` file contains section headings named to match (eg. `[chef-community]` and/or `[chef-engineering]` and/or `[chef-sa-group]`.
+   * If you are using an account tied to Okta, such as `chef-engineering`, ensure that the [`okta_aws`](https://github.com/chef/okta_aws) tool is running so your `credentials` file has a fresh set of keys.
 1. Run: `bundle install`
 1. Run: `bundle exec carpenter build NAME`
    * The `NAME` will be used in the FQDN of the Automate Hostname, and it also provides the ability to run multiple workshop environments simultaneously.
@@ -54,13 +54,13 @@ Adding support for an additional account requires some EC2, Route 53, and Carpen
 
 1. Get the AWS account number of the new account.
 1. Modify the latest EC2 Workstation AMI permissions, and share it with the new account.
-1. Create a new security group in the new account. It will need to allow SSH, HTTP, and HTTPS traffic inbound from everyone.
+1. Create a new security group in the new account. The security group must be in the default VPC.  It will need to allow SSH, HTTP, and HTTPS traffic inbound from everyone.
 
 ### Route 53
 
 1. Create a new hosted zone in the new account. Follow the `<DEPARTMENT>.chefdemo.net` naming convention. For example, for the Solutions Architect account, a good zone name may be `sa.chefdemo.net`
 1. Grab the `NS` records from the new account.
-1. In the `chef-aws` account, create a new `NS` record set. The name should be the name of the zone you created in step 1, and the contents should be the `NS` records from the zone created in step 1.
+1. In the `chef-community` account, create a new `NS` record set. The name should be the name of the zone you created in step 1, and the contents should be the `NS` records from the zone created in step 1.
 
 ### Packer Config
 
@@ -70,7 +70,7 @@ Modify `packer/workshop-workstation-centos.json` in this repo, and add the new a
 
 Create a new section in the `carpenter.toml` file at the root of this repository. Include the following information:
 
-* **name**: the name of the account. This should match the section header in `~/.aws/credentials` which may be created automatically by the `okta_aws` tool.
+* **name**: the name of the account. This should match the section header in `~/.aws/credentials` which may be created automatically by the [`okta_aws`](https://github.com/chef/okta_aws) tool.
 * **workstation AMI ID**: this will likely be the same ID as the other existing sections if it was shared as instructed in this README.
 * **automate AMI ID**: copy from an existing section - this is just a base CentOS image with no customizations.
 * **security group ID**: the `sg-xxxxxxxxx` ID of the security group created above.
