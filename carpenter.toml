@@ -1,20 +1,23 @@
 [[aws_accounts]]
 name = "chef-community"
-workstation_ami_id = "ami-0b1dd6cb093166004"
+workstation_ami_id = "ami-0f601d47b0c0e805d"
 automate_ami_id = "ami-0ebdd976"
 security_group_id = "sg-0ceb0741aec969b9a"
 dns_zone = "community.chefdemo.net."
+domain = "community.chefdemo.net"
 
 [[aws_accounts]]
 name = "chef-engineering"
-workstation_ami_id = "ami-0b1dd6cb093166004"
+workstation_ami_id = "ami-0f601d47b0c0e805d"
 automate_ami_id = "ami-d2c924b2"
 security_group_id = "sg-768b5f0a"
 dns_zone = "eng.chefdemo.net."
+domain = "eng.chefdemo.net"
 
 [[aws_accounts]]
 name = "chef-sa-group"
-workstation_ami_id = "ami-0b1dd6cb093166004"
+workstation_ami_id = "ami-0f601d47b0c0e805d"
 automate_ami_id = "ami-d2c924b2"
 security_group_id = "sg-9ea276e2"
 dns_zone = "sa.chefdemo.net."
+domain = "sa.chefdemo.net"

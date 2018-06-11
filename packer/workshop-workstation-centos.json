@@ -6,10 +6,18 @@
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "us-west-2",
     "instance_type": "m3.medium",
-    "source_ami": "ami-0ebdd976",
+    "source_ami_filter": {
+      "filters": {
+        "virtualization-type": "hvm",
+        "name": "CentOS Linux 7 x86_64 HVM EBS*",
+        "root-device-type": "ebs"
+      },
+      "owners": ["679593333241"],
+      "most_recent": true
+    },
     "ssh_username": "centos",
     "ami_users": ["112758395563", "496323866215", "852422701973"],
-    "ami_name": "Workshop Workstation - CentOS 7 - v0.5"
+    "ami_name": "Workshop Workstation - CentOS 7 - v0.6"
   }],
 
   "provisioners": [{

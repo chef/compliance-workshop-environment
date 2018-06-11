@@ -40,7 +40,7 @@ module Carpenter
     end
 
     def self.has_license?
-      File.exist?(File.join(terraform_dir, 'delivery.license'))
+      File.exist?(File.join(terraform_dir, 'automate.license'))
     end
 
     private
@@ -71,6 +71,7 @@ module Carpenter
         "TF_VAR_automate_ami"               => config[:automate_ami_id],
         "TF_VAR_security_group"             => config[:security_group_id],
         "TF_VAR_dns_zone"                   => config[:dns_zone],
+        "TF_VAR_domain"                     => config[:domain],
       }
     end
   end

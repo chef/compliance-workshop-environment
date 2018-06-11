@@ -56,3 +56,7 @@ variable "deck_color_2" {
 variable "dns_zone" {
   type = "string"
 }
+
+variable "domain" {
+  type = "string"
+}
