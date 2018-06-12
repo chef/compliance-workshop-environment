@@ -11,7 +11,7 @@ module Carpenter
       cli = HighLine.new
 
       validate_terraform_install!(cli)
-      validate_delivery_license!(cli)
+      validate_automate_license!(cli)
 
       unless Carpenter::State.load(env_name).empty?
         say_error(cli, "environment #{env_name} already exists.")
@@ -81,6 +81,7 @@ module Carpenter
         workstation_count: workstation_count,
         automate_ami_id: account_config[:automate_ami_id],
         dns_zone: account_config[:dns_zone],
+        domain: account_config[:domain],
         security_group_id: account_config[:security_group_id],
         deck_color_1: deck_color_1,
         deck_color_2: deck_color_2,
@@ -264,10 +265,10 @@ module Carpenter
       exit 1
     end
 
-    def validate_delivery_license!(cli)
+    def validate_automate_license!(cli)
       unless Carpenter::Terraform.has_license?
-        say_error(cli, "No delivery license file found. " \
-          "Please copy a valid delivery.license to the terraform/ directory.") unless Carpenter::Terraform.has_license?
+        say_error(cli, "No automate license file found. " \
+          "Please copy a valid automate.license to the terraform/ directory.") unless Carpenter::Terraform.has_license?
         exit 1
       end
     end

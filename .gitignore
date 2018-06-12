@@ -5,3 +5,4 @@ state/
 terraform/delivery.license
 terraform/delivery.pem
 terraform/.terraform
+terraform/automate.license
